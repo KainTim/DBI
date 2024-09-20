@@ -1,0 +1,59 @@
+### Aufgabe 1.1: Wieso ist es effizienter, SQL Statements mit einem PL/SQL Block zu verwenden?
+
+1. Reduzierter Kontextwechsel: SQL- und PL/SQL-Statements werden direkt auf dem Datenbankserver ausgeführt. Ein einzelner PL/SQL-Block kann mehrere SQL-Anweisungen umfassen und reduziert so die Anzahl der Interaktionen zwischen Client und Server.
+2. Komplexe Logik auf dem Server: PL/SQL ermöglicht die Einbindung von Kontrollstrukturen (z.B. Schleifen, Bedingungen), die in SQL allein nicht möglich sind. Dadurch kann Logik direkt auf dem Server ausgeführt werden, ohne dass der Client mehrfach eingreifen muss.
+3. Performance: Da mehrere SQL-Befehle zusammen in einem PL/SQL-Block verarbeitet werden, werden die Netzwerk- und Ausführungskosten reduziert, was zu einer schnelleren Verarbeitung führt.
+
+### Aufgabe 1.2: Was sind die Unterschiede zwischen einem Named Block (PROCEDURE/FUNCTION) und einem Anonymous Block?
+
+Named Block (Procedure/Function):
+- Hat einen Namen.
+- Wird in der Datenbank gespeichert und kann mehrfach aufgerufen werden.
+- Unterstützt Parameter.
+- Bleibt in der Datenbank gespeichert, bis er explizit gelöscht wird.
+
+Anonymous Block:
+- Kein Name.
+- Einmalige Ausführung, nicht speicherbar.
+- Kann nicht wiederverwendet werden.
+- Wird direkt nach der Ausführung verworfen.
+
+### Aufgabe 1.3: Welche der folgenden PL/SQL-Blöcke können erfolgreich ausgeführt werden?
+
+a) BEGIN END; - Erfolgreich. Es handelt sich um einen leeren, aber gültigen PL/SQL-Block.
+
+b) DECLARE amount INTEGER(10); END; - Fehler. Es fehlt der BEGIN-Block zur Ausführung des Codes.
+
+c) DECLARE BEGIN END; - Fehler. Es fehlen Variablen im DECLARE-Block.
+
+d) DECLARE amount INTEGER(10); BEGIN DBMS_OUTPUT.PUT_LINE(amount); END; - Fehler. Die Variable amount ist deklariert, aber nicht initialisiert, was zu einem Fehler bei der Ausgabe führt.
+
+### Aufgabe 1.4: Gegeben sei folgendes PL/SQL
+
+a) Beschreibe die Struktur des/eines PL/SQL Blocks basierend auf obigen Codebeispiel.
+
+Ein PL/SQL Block besteht typischerweise aus drei Teilen: 
+
+1. Deklarationsbereich (DECLARE): Hier werden Variablen deklariert. In diesem Beispiel werden die Variablen v_name und v_total deklariert.
+2. Ausführungsbereich (BEGIN ... END): In diesem Bereich wird der Hauptcode ausgeführt. Hier wird ein SELECT INTO-Statement verwendet, um Daten aus der Datenbank in die Variablen v_name und v_total zu speichern. Anschließend wird eine Ausgabe mit DBMS_OUTPUT.PUT_LINE generiert.
+3. Ausnahmebehandlung (EXCEPTION): Hier werden Fehler behandelt. Wenn ein Fehler vom Typ NO_DATA_FOUND auftritt, wird eine Nachricht ausgegeben.
+
+b) Was passiert, wenn der Runtime Error NO_DATA_FOUND im PL/SQL Block auftritt?
+
+Wenn der Fehler NO_DATA_FOUND auftritt, wird der EXCEPTION-Block ausgeführt. In diesem Fall wird der String "There is no such instructor" mit der Prozedur DBMS_OUTPUT.PUT_LINE ausgegeben. Dies passiert, wenn die SELECT INTO-Anweisung keine Zeilen zurückgibt, weil kein instructor_id mit dem Wert 102 existiert.
+
+c) Was ist ein Syntax Error?
+
+Ein Syntax Error tritt auf, wenn der Code nicht den grammatikalischen Regeln der PL/SQL-Syntax entspricht. Dies könnte z.B. durch fehlende Schlüsselwörter, falsche Datenbankobjekte oder unsachgemäße Zeichenfolgezeichen auftreten. Der Compiler erkennt diesen Fehler vor der Ausführung des Codes.
+
+d) Wie unterscheidet sich ein Syntax Error von einem Runtime Error?
+
+Syntax Error: Tritt auf, bevor der Code ausgeführt wird, und verhindert, dass der Code überhaupt gestartet wird. Er wird vom Compiler während der Übersetzung erkannt.
+
+Runtime Error: Tritt während der Ausführung des Codes auf, z.B. wenn eine Datenbankoperation fehlschlägt oder eine Division durch Null erfolgt. Der Code konnte zunächst erfolgreich kompiliert werden, aber ein Fehler tritt während der Laufzeit auf.
+
+### Aufgabe 1.5: Erstelle einen einfachen anonymen Block mit der Ausgabe "Hello World" und führe diesen aus.
+
+BEGIN DBMS_OUTPUT.PUT_LINE('Hello World'); END; 
+
+Erklärung: Dies ist ein einfacher anonymer Block, der die Ausgabe "Hello World" mithilfe der DBMS_OUTPUT.PUT_LINE-Prozedur auf die Standardausgabe der PL/SQL-Umgebung ausgibt.
