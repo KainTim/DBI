@@ -1,0 +1,145 @@
+--Aufgabe 1
+
+--a)Schon verhanden;Create or Replace
+--b)so oft wie es den ZIP Code 02189 gibt
+--c)so oft wie Spalten in student sind weil der Trigger auf die Tabelle ist
+--d) wenn die ZIP null ist
+
+CREATE OR REPLACE TRIGGER student_au
+AFTER UPDATE ON STUDENT
+FOR EACH ROW
+WHEN (NVL(NEW. ZIP , ' ') <> OLD. ZIP )
+BEGIN
+  UPDATE student
+  SET zip = '01247'
+  WHERE zip = '02189';
+END;
+/
+
+--Aufgabe 2
+
+--a) ja weil zip eventuell mit null verglichen wird
+--b)
+CREATE OR REPLACE TRIGGER instructor_bi
+BEFORE INSERT ON INSTRUCTOR
+FOR EACH ROW
+DECLARE
+  v_work_zip CHAR(1);
+
+BEGIN
+  
+  :NEW.CREATED_BY := USER;
+  :NEW.CREATED_DATE := SYSDATE;
+  :NEW.MODIFIED_BY := USER;
+  :NEW.MODIFIED_DATE := SYSDATE;
+
+  IF(:NEW.ZIP IS NULL) THEN
+    RAISE_APPLICATION_ERROR (-20001, 'Zip code is required!');
+  END IF;
+  
+  SELECT 'Y'
+  INTO v_work_zip
+  FROM zipcode
+  WHERE zip = :NEW.ZIP;
+
+EXCEPTION
+  WHEN NO_DATA_FOUND THEN
+    RAISE_APPLICATION_ERROR (-20000, 'Zip code is not valid!');
+END;
+/
+--c)
+CREATE OR REPLACE TRIGGER instructor_bi
+BEFORE INSERT ON INSTRUCTOR
+FOR EACH ROW
+DECLARE
+  v_work_zip CHAR(1);
+
+BEGIN
+  :NEW.instructor_id := INSTRUCTOR_ID_SEQ.NEXTVAL;
+  :NEW.CREATED_BY := USER;
+  :NEW.CREATED_DATE := SYSDATE;
+  :NEW.MODIFIED_BY := USER;
+  :NEW.MODIFIED_DATE := SYSDATE;
+
+  IF(:NEW.ZIP IS NULL) THEN
+    RAISE_APPLICATION_ERROR (-20001, 'Zip code is required!');
+  END IF;
+  
+  SELECT 'Y'
+  INTO v_work_zip
+  FROM zipcode
+  WHERE zip = :NEW.ZIP;
+
+EXCEPTION
+  WHEN NO_DATA_FOUND THEN
+    RAISE_APPLICATION_ERROR (-20001, 'Zip code is not valid!');
+END;
+/
+
+--Aufgabe 3
+--a)Before Insert; ROW(FOR EACH ROW)
+--b)weil man NEW sonst nicht verwenden kann
+-- --c):NEW.COURSE_NO := COURSE_NO_SEQ.NEXTVAL;
+-- :NEW.CREATED_BY := USER;
+-- :NEW.CREATED_DATE := SYSDATE;
+-- :NEW.MODIFIED_BY := USER;
+-- :NEW.MODIFIED_DATE := SYSDATE;
+--d)
+CREATE OR REPLACE TRIGGER enrollment_bi
+BEFORE INSERT ON ENROLLMENT
+FOR EACH ROW
+
+BEGIN
+  :NEW.CREATED_BY := USER;
+  :NEW.CREATED_DATE := SYSDATE;
+  :NEW.MODIFIED_BY := USER;
+  :NEW.MODIFIED_DATE := SYSDATE;
+  :NEW.ENROLL_DATE := SYSDATE;
+END;
+/
+--Aufgabe 4
+
+CREATE OR REPLACE TRIGGER course_bi
+BEFORE INSERT ON COURSE
+FOR EACH ROW
+DECLARE
+  v_temp COURSE.COURSE_NO%type;
+BEGIN
+
+  Select COST into v_temp FROM COURSE
+  WHERE COURSE_NO = :NEW.COURSE_NO;
+
+  :NEW.COURSE_NO := COURSE_NO_SEQ.NEXTVAL;
+  :NEW.CREATED_BY := USER;
+  :NEW.CREATED_DATE := SYSDATE;
+  :NEW.MODIFIED_BY := USER;
+  :NEW.MODIFIED_DATE := SYSDATE;
+
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        RAISE_APPLICATION_ERROR (-20003, 'Prerequesite Course not existing!');
+END;
+/
+--Aufgabe 5
+
+CREATE OR REPLACE TRIGGER course_bi
+BEFORE INSERT ON COURSE
+FOR EACH ROW
+DECLARE
+  v_temp COURSE.COURSE_NO%type;
+BEGIN
+
+  Select COST into v_temp FROM COURSE
+  WHERE COURSE_NO = :NEW.COURSE_NO;
+
+  :NEW.COURSE_NO := COURSE_NO_SEQ.NEXTVAL;
+  :NEW.CREATED_BY := USER;
+  :NEW.CREATED_DATE := SYSDATE;
+  :NEW.MODIFIED_BY := USER;
+  :NEW.MODIFIED_DATE := SYSDATE;
+
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        RAISE_APPLICATION_ERROR (-20003, 'Prerequesite Course not existing!');
+END;
+/

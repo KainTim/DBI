@@ -173,7 +173,7 @@ BEGIN
     -- Query to count the number of sections taught by the instructor
     SELECT COUNT(*)
     INTO v_section_count
-    FROM sections
+    FROM section
     WHERE instructor_id = v_instructor_id;
 
     -- Check if the number of sections is greater than 3
@@ -245,7 +245,7 @@ BEGIN
     -- Query to count the number of sections taught by the instructor
     SELECT COUNT(*)
     INTO v_section_count
-    FROM sections
+    FROM section
     WHERE instructor_id = v_instructor_id;
 
     -- Use a CASE statement to determine the output message

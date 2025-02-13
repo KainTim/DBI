@@ -1,0 +1,30 @@
+SELECT 'Count of COURSE Table:', COUNT(*)
+  FROM course
+ GROUP BY 'Count of COURSE Table:';
+SELECT 'Count of ENROLLMENT Table:', COUNT(*)
+  FROM enrollment
+ GROUP BY 'Count of ENROLLMENT Table:';
+SELECT 'Count of GRADE Table:', COUNT(*)
+  FROM GRADE
+ GROUP BY 'Count of GRADE Table:';
+SELECT 'Count of GRADE_CONVERSION Table:', COUNT(*)
+  FROM GRADE_CONVERSION
+ GROUP BY 'Count of GRADE_CONVERSION Table:';
+SELECT 'Count of GRADE_TYPE Table:', COUNT(*)
+  FROM GRADE_TYPE
+ GROUP BY 'Count of GRADE_TYPE Table:';
+SELECT 'Count of GRADE_TYPE_WEIGHT Table:', COUNT(*)
+  FROM GRADE_TYPE_WEIGHT
+ GROUP BY 'Count of GRADE_TYPE Table:';
+SELECT 'Count of INSTRUCTOR Table:', COUNT(*)
+  FROM INSTRUCTOR
+ GROUP BY 'Count of INSTRUCTOR Table:';
+SELECT 'Count of SECTION Table:', COUNT(*)
+  FROM SECTION
+ GROUP BY 'Count of SECTION Table:';
+SELECT 'Count of STUDENT Table:', COUNT(*)
+  FROM STUDENT
+ GROUP BY 'Count of STUDENT Table:';
+SELECT 'Count of ZIPCODE Table:', COUNT(*)
+  FROM ZIPCODE
+ GROUP BY 'Count of ZIPCODE Table:';
