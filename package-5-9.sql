@@ -7,13 +7,18 @@ CREATE OR REPLACE PACKAGE supermarkt AS
         supplier_article_number VARCHAR2(50)
     );
     TYPE product_collection IS TABLE OF product_record INDEX BY BINARY_INTEGER;
+    -- Aufgabe 5
     PROCEDURE new_delivery(supplier_id NUMBER, delivery_date DATE, products product_collection);
+    -- Aufgabe 6
     PROCEDURE change_price(product_id NUMBER, price NUMBER, from_date DATE, special_offer SMALLINT);
+    -- Aufgabe 7
     FUNCTION get_delivery_price(delivery_id NUMBER) RETURN Number;
+    -- Aufgabe 8
     FUNCTION get_price_of_date(product_id NUMBER, p_date DATE) RETURN Number;
 END supermarkt;
 /
 CREATE OR REPLACE PACKAGE BODY supermarkt AS
+    -- Aufgabe 5
     PROCEDURE new_delivery(supplier_id NUMBER, delivery_date DATE, products product_collection)
         IS
         begin
@@ -27,7 +32,7 @@ CREATE OR REPLACE PACKAGE BODY supermarkt AS
             END LOOP;
             COMMIT;
         end new_delivery;
-    
+    -- Aufgabe 6
     PROCEDURE change_price(product_id NUMBER, price NUMBER, from_date DATE, special_offer SMALLINT)
         IS
             v_price_at_date NUMBER;
@@ -49,6 +54,7 @@ CREATE OR REPLACE PACKAGE BODY supermarkt AS
             WHEN NO_DATA_FOUND THEN
                 RAISE_APPLICATION_ERROR(-20001, 'Artikel mit ID ' || product_id || ' nicht gefunden.');
         END change_price;
+    -- Aufgabe 7
     FUNCTION get_delivery_price(delivery_id NUMBER) RETURN Number
         IS
             v_total_price Number;
@@ -58,6 +64,7 @@ CREATE OR REPLACE PACKAGE BODY supermarkt AS
             WHERE lieferungsid = delivery_id;
             RETURN v_total_price;
         END get_delivery_price;
+    -- Aufgabe 8
     FUNCTION get_price_of_date(product_id NUMBER, p_date DATE) RETURN NUMBER
         IS
             v_price NUMBER;
@@ -72,6 +79,7 @@ CREATE OR REPLACE PACKAGE BODY supermarkt AS
 
 END supermarkt;
 /
+-- Tests
 DECLARE
     products supermarkt.product_collection := supermarkt.product_collection();
 BEGIN
@@ -86,4 +94,4 @@ END;
 SELECT * FROM Lieferung;
 SELECT * FROM LIEFERUNGSDETAILS;
 SELECT * FROM Artikel;
-SELECT Preis, TO_CHAR(GUELTIGAB, 'dd.mm.yyyy.hh.ss') FROM PREISHISTORIE WHERE ARTIKELID = 1;
+SELECT * FROM PREISHISTORIE WHERE ARTIKELID = 1;
